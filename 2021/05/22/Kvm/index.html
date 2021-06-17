@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-nature.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-nature.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.naturelr.cc&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.json&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="kvm基于linux内核的虚拟化">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Kvm">
+<meta property="og:url" content="http://blog.naturelr.cc/2021/05/22/Kvm/index.html">
+<meta property="og:site_name" content="Nature丿灵然">
+<meta property="og:description" content="kvm基于linux内核的虚拟化">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-12.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-13.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-14.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-15.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-16.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-17.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-18.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-19.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-20.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-21.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-22.png">
+<meta property="og:image" content="http://blog.naturelr.cc/images/pasted-23.png">
+<meta property="article:published_time" content="2021-05-22T14:00:00.000Z">
+<meta property="article:modified_time" content="2021-06-17T06:50:48.166Z">
+<meta property="article:author" content="Nature丿灵然">
+<meta property="article:tag" content="kvm">
+<meta property="article:tag" content="虚拟化">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog.naturelr.cc/images/pasted-12.png">
+
+
+<link rel="canonical" href="http://blog.naturelr.cc/2021/05/22/Kvm/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;blog.naturelr.cc&#x2F;2021&#x2F;05&#x2F;22&#x2F;Kvm&#x2F;&quot;,&quot;path&quot;:&quot;2021&#x2F;05&#x2F;22&#x2F;Kvm&#x2F;&quot;,&quot;title&quot;:&quot;Kvm&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Kvm | Nature丿灵然</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Nature丿灵然</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">尽人事听天命</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E7%A1%AC%E4%BB%B6%E6%98%AF%E5%90%A6%E6%94%AF%E6%8C%81"><span class="nav-number">1.</span> <span class="nav-text">检查硬件是否支持</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E5%8C%96%E5%AE%89%E8%A3%85%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F"><span class="nav-number">3.</span> <span class="nav-text">图形化安装操作系统</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%95%8C%E9%9D%A2%E8%AF%B4%E6%98%8E"><span class="nav-number">3.1.</span> <span class="nav-text">其他界面说明</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%88%9B%E5%BB%BA"><span class="nav-number">4.</span> <span class="nav-text">命令行创建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%89%E9%A1%B9%E8%AF%B4%E6%98%8E"><span class="nav-number">4.1.</span> <span class="nav-text">选项说明</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#virsh%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">4.2.</span> <span class="nav-text">virsh常用命令</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Nature丿灵然</p>
+  <div class="site-description" itemprop="description">Nature丿灵然的博客</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/NatureLR" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;NatureLR" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1127711564@qq.com" title="E-Mail → 1127711564@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.naturelr.cc/2021/05/22/Kvm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Nature丿灵然">
+      <meta itemprop="description" content="Nature丿灵然的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nature丿灵然">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Kvm
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-05-22 22:00:00" itemprop="dateCreated datePublished" datetime="2021-05-22T22:00:00+08:00">2021-05-22</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-17 14:50:48" itemprop="dateModified" datetime="2021-06-17T14:50:48+08:00">2021-06-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>kvm基于linux内核的虚拟化</p>
+<span id="more"></span>
+
+<blockquote>
+<p>kvm是基于硬件的完全虚拟化，集成在内核中，qemu主要外部设备的虚拟化两者各发挥所长</p>
+</blockquote>
+<h4 id="检查硬件是否支持"><a href="#检查硬件是否支持" class="headerlink" title="检查硬件是否支持"></a>检查硬件是否支持</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">apt</span> <span class="token function">install</span> cpu-checker
+
+kvm-ok
+INFO: /dev/kvm exists
+KVM acceleration can be used<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>虚拟机中需要打开虚拟化嵌套支持</p>
+</blockquote>
+<p><img src="/images/pasted-12.png" alt="upload successful"></p>
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">sudo</span> <span class="token function">apt</span> <span class="token function">install</span> qemu-kvm libvirt-daemon-system libvirt-clients bridge-utils virtinst virt-manager<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<ul>
+<li>qemu-kvm -为KVM管理程序提供硬件仿真的软件。</li>
+<li>libvirt-daemon-system -用于将libvirt守护程序作为系统服务运行的配置文件。</li>
+<li>libvirt-clients -用于管理虚拟化平台的软件。</li>
+<li>bridge-utils -一组用于配置以太网桥的命令行工具。</li>
+<li>virtinst -一组用于创建虚拟机的命令行工具。</li>
+<li>virt-manager -易于使用的GUI界面和支持命令行工具，用于通过libvirt管理虚拟机。</li>
+</ul>
+<p>查看运行状态</p>
+<pre class="line-numbers language-sehll" data-language="sehll"><code class="language-sehll">sudo systemctl status libvirtd<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="图形化安装操作系统"><a href="#图形化安装操作系统" class="headerlink" title="图形化安装操作系统"></a>图形化安装操作系统</h4><blockquote>
+<p>找到虚拟系统管理器</p>
+</blockquote>
+<p><img src="/images/pasted-13.png" alt="upload successful"></p>
+<blockquote>
+<p>点击新建，剩下的和vmware很像</p>
+</blockquote>
+<p><img src="/images/pasted-14.png" alt="upload successful"></p>
+<blockquote>
+<p>选择安装类型</p>
+</blockquote>
+<p><img src="/images/pasted-15.png" alt="upload successful"></p>
+<blockquote>
+<p>指定安装的iso镜像文件</p>
+</blockquote>
+<p><img src="/images/pasted-16.png" alt="upload successful"></p>
+<blockquote>
+<p>自动选择系统类型有问题，无法识别，这里改为通用默认类型</p>
+</blockquote>
+<p><img src="/images/pasted-17.png" alt="upload successful"></p>
+<blockquote>
+<p>启动成功进入了安装界面剩下的不做过多介绍</p>
+</blockquote>
+<p><img src="/images/pasted-18.png" alt="upload successful"></p>
+<h5 id="其他界面说明"><a href="#其他界面说明" class="headerlink" title="其他界面说明"></a>其他界面说明</h5><blockquote>
+<p>系统启动引导界面</p>
+</blockquote>
+<p><img src="/images/pasted-19.png" alt="upload successful"></p>
+<blockquote>
+<p>这里可以看到磁盘的信息</p>
+</blockquote>
+<p><img src="/images/pasted-20.png" alt="upload successful"></p>
+<blockquote>
+<p>这里选择可图形服务器</p>
+</blockquote>
+<p><img src="/images/pasted-21.png" alt="upload successful"></p>
+<blockquote>
+<p>网卡配置界面</p>
+</blockquote>
+<p><img src="/images/pasted-22.png" alt="upload successful"></p>
+<h4 id="命令行创建"><a href="#命令行创建" class="headerlink" title="命令行创建"></a>命令行创建</h4><blockquote>
+<p>创建一个磁盘容量为15g，类型为qcow2，名字叫centos7.qcow2的虚拟磁盘</p>
+</blockquote>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">qemu-img create -f qcow2 centos7.qcow2 15G<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<blockquote>
+<p>创建虚拟机</p>
+</blockquote>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token function">sudo</span> virt-install <span class="token punctuation">\</span>
+ --name<span class="token operator">=</span>centos7 <span class="token punctuation">\</span>
+ --disk <span class="token assign-left variable">path</span><span class="token operator">=</span>/home/centos7.qcow2 <span class="token punctuation">\</span>
+ --vcpus<span class="token operator">=</span><span class="token number">1</span> --ram<span class="token operator">=</span><span class="token number">1024</span> <span class="token punctuation">\</span>
+ --cdrom<span class="token operator">=</span>/home/CentOS-7-x86_64-Minimal-2003.iso <span class="token punctuation">\</span>
+ --network <span class="token assign-left variable">bridge</span><span class="token operator">=</span>virbr0 <span class="token punctuation">\</span>
+ --graphics vnc,listen<span class="token operator">=</span><span class="token number">0.0</span>.0.0 <span class="token punctuation">\</span>
+ --os-type<span class="token operator">=</span>linux <span class="token punctuation">\</span>
+ --os-variant<span class="token operator">=</span><span class="token string">"centos7.0"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>此时可以通过vnc连接开始安装系统，也可以像图形化界面一样用虚拟机管理器安装</p>
+</blockquote>
+<p><img src="/images/pasted-23.png" alt="upload successful"></p>
+<h5 id="选项说明"><a href="#选项说明" class="headerlink" title="选项说明"></a>选项说明</h5><blockquote>
+<p>virt-install 中–os-variant可选值</p>
+</blockquote>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token comment"># ubuntu</span>
+<span class="token function">sudo</span> <span class="token function">apt</span> -y <span class="token function">install</span> libosinfo-bin
+
+<span class="token comment"># cengtos</span>
+yum -y <span class="token function">install</span> libosinfo<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="virsh常用命令"><a href="#virsh常用命令" class="headerlink" title="virsh常用命令"></a>virsh常用命令</h5><table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>virsh start xxx</td>
+<td>启动名字为x的非活动虚拟机</td>
+</tr>
+<tr>
+<td>virsh list  –all</td>
+<td>列出虚拟机</td>
+</tr>
+<tr>
+<td>virsh create xxx.xml</td>
+<td>创建虚拟机，没有持久化</td>
+</tr>
+<tr>
+<td>virsh suspend xxx</td>
+<td>暂停虚拟机</td>
+</tr>
+<tr>
+<td>virsh resume xxxx</td>
+<td>启动暂停的虚拟机</td>
+</tr>
+<tr>
+<td>virsh shutdown xxxx</td>
+<td>正常关闭虚拟机</td>
+</tr>
+<tr>
+<td>virsh destroy xxxx</td>
+<td>强制关闭虚拟机</td>
+</tr>
+<tr>
+<td>virsh undefine xxx</td>
+<td>删除虚拟机，只是从列表中删除，且不会删除活动的虚拟机</td>
+</tr>
+<tr>
+<td>virsh dominfo xxx</td>
+<td>显示虚拟机的基本信息</td>
+</tr>
+<tr>
+<td>virsh domname 2</td>
+<td>显示id号为2的虚拟机名</td>
+</tr>
+<tr>
+<td>virsh domid xxx</td>
+<td>显示虚拟机id号</td>
+</tr>
+<tr>
+<td>virsh domuuid xxx</td>
+<td>显示虚拟机的uuid</td>
+</tr>
+<tr>
+<td>virsh domstate xxx</td>
+<td>显示虚拟机的当前状态</td>
+</tr>
+<tr>
+<td>virsh dumpxml xxx</td>
+<td>显示虚拟机的当前配置文件（可能和定义虚拟机时的配置不同，因为当虚拟机启动时，需要给虚拟机 分配id号、uuid、vnc端口号等等）</td>
+</tr>
+<tr>
+<td>virsh setmem x 512000</td>
+<td>给不活动虚拟机设置内存大小</td>
+</tr>
+<tr>
+<td>virsh edit xxx</td>
+<td>编辑配置文件（一般是在刚定义完虚拟机之后）</td>
+</tr>
+</tbody></table>
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a target="_blank" rel="noopener" href="https://www.iplayio.cn/post/92661051">https://www.iplayio.cn/post/92661051</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/saryli/p/11827903.html">https://www.cnblogs.com/saryli/p/11827903.html</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kvm/" rel="tag"># kvm</a>
+              <a href="/tags/%E8%99%9A%E6%8B%9F%E5%8C%96/" rel="tag"># 虚拟化</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/02/IP%E5%91%BD%E4%BB%A4/" rel="prev" title="IP命令基本使用">
+                  <i class="fa fa-chevron-left"></i> IP命令基本使用
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/05/23/OSquery/" rel="next" title="OSquery">
+                  OSquery <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nature丿灵然</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>

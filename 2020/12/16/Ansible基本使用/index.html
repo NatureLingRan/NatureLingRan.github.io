@@ -1,0 +1,1434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-nature.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-nature.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/all.min.css" integrity="sha256-2H3fkXt6FEmrReK448mDVGKb3WW2ZZw35gI7vqHOE4Y=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{&quot;hostname&quot;:&quot;blog.naturelr.cc&quot;,&quot;root&quot;:&quot;&#x2F;&quot;,&quot;images&quot;:&quot;&#x2F;images&quot;,&quot;scheme&quot;:&quot;Mist&quot;,&quot;version&quot;:&quot;8.5.0&quot;,&quot;exturl&quot;:false,&quot;sidebar&quot;:{&quot;position&quot;:&quot;left&quot;,&quot;display&quot;:&quot;post&quot;,&quot;padding&quot;:18,&quot;offset&quot;:12},&quot;copycode&quot;:true,&quot;bookmark&quot;:{&quot;enable&quot;:true,&quot;color&quot;:&quot;#222&quot;,&quot;save&quot;:&quot;auto&quot;},&quot;fancybox&quot;:false,&quot;mediumzoom&quot;:false,&quot;lazyload&quot;:false,&quot;pangu&quot;:false,&quot;comments&quot;:{&quot;style&quot;:&quot;tabs&quot;,&quot;active&quot;:null,&quot;storage&quot;:true,&quot;lazyload&quot;:false,&quot;nav&quot;:null},&quot;motion&quot;:{&quot;enable&quot;:true,&quot;async&quot;:false,&quot;transition&quot;:{&quot;post_block&quot;:&quot;fadeIn&quot;,&quot;post_header&quot;:&quot;fadeInDown&quot;,&quot;post_body&quot;:&quot;fadeInDown&quot;,&quot;coll_header&quot;:&quot;fadeInLeft&quot;,&quot;sidebar&quot;:&quot;fadeInUp&quot;}},&quot;prism&quot;:false,&quot;i18n&quot;:{&quot;placeholder&quot;:&quot;搜索...&quot;,&quot;empty&quot;:&quot;没有找到任何搜索结果：${query}&quot;,&quot;hits_time&quot;:&quot;找到 ${hits} 个搜索结果（用时 ${time} 毫秒）&quot;,&quot;hits&quot;:&quot;找到 ${hits} 个搜索结果&quot;},&quot;path&quot;:&quot;&#x2F;search.json&quot;,&quot;localsearch&quot;:{&quot;enable&quot;:true,&quot;trigger&quot;:&quot;auto&quot;,&quot;top_n_per_article&quot;:1,&quot;unescape&quot;:false,&quot;preload&quot;:true}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Ansible是一个自动化运维工具，可以实现批量配置，部署，命令等功能">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ansible基本使用">
+<meta property="og:url" content="http://blog.naturelr.cc/2020/12/16/Ansible%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Nature丿灵然">
+<meta property="og:description" content="Ansible是一个自动化运维工具，可以实现批量配置，部署，命令等功能">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-12-16T05:26:00.000Z">
+<meta property="article:modified_time" content="2021-06-17T06:50:48.165Z">
+<meta property="article:author" content="Nature丿灵然">
+<meta property="article:tag" content="ansible">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://blog.naturelr.cc/2020/12/16/Ansible%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{&quot;sidebar&quot;:&quot;&quot;,&quot;isHome&quot;:false,&quot;isPost&quot;:true,&quot;lang&quot;:&quot;zh-CN&quot;,&quot;comments&quot;:true,&quot;permalink&quot;:&quot;http:&#x2F;&#x2F;blog.naturelr.cc&#x2F;2020&#x2F;12&#x2F;16&#x2F;Ansible%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8&#x2F;&quot;,&quot;path&quot;:&quot;2020&#x2F;12&#x2F;16&#x2F;Ansible基本使用&#x2F;&quot;,&quot;title&quot;:&quot;Ansible基本使用&quot;}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">&quot;&quot;</script>
+<title>Ansible基本使用 | Nature丿灵然</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Nature丿灵然</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">尽人事听天命</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+        <li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E8%B7%AF%E5%BE%84"><span class="nav-number">2.</span> <span class="nav-text">配置路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E6%B8%85%E5%8D%95"><span class="nav-number">3.</span> <span class="nav-text">主机清单</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9E%E7%BB%ADIP"><span class="nav-number">3.1.</span> <span class="nav-text">连续IP</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text">参数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.1.</span> <span class="nav-text">常用参数</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%AB%E5%90%8D"><span class="nav-number">3.3.</span> <span class="nav-text">别名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E7%BB%84"><span class="nav-number">3.4.</span> <span class="nav-text">主机组</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E7%BB%84%E5%B5%8C%E5%A5%97"><span class="nav-number">3.5.</span> <span class="nav-text">主机组嵌套</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA%E7%BB%84%E5%8F%82%E6%95%B0"><span class="nav-number">3.6.</span> <span class="nav-text">主机组参数</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97"><span class="nav-number">4.</span> <span class="nav-text">模块</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E6%A8%A1%E5%9D%97"><span class="nav-number">4.1.</span> <span class="nav-text">常用模块</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#command"><span class="nav-number">4.1.1.</span> <span class="nav-text">command</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#shell"><span class="nav-number">4.1.2.</span> <span class="nav-text">shell</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#script"><span class="nav-number">4.1.3.</span> <span class="nav-text">script</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#copy"><span class="nav-number">4.1.4.</span> <span class="nav-text">copy</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#file"><span class="nav-number">4.1.5.</span> <span class="nav-text">file</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#blockinfile"><span class="nav-number">4.1.6.</span> <span class="nav-text">blockinfile</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#lineinfile"><span class="nav-number">4.1.7.</span> <span class="nav-text">lineinfile</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#replace"><span class="nav-number">4.1.8.</span> <span class="nav-text">replace</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#systemd"><span class="nav-number">4.1.9.</span> <span class="nav-text">systemd</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#yum"><span class="nav-number">4.1.10.</span> <span class="nav-text">yum</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#cron"><span class="nav-number">4.1.11.</span> <span class="nav-text">cron</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E5%91%BD%E4%BB%A4"><span class="nav-number">5.</span> <span class="nav-text">执行命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E6%9F%90%E4%BA%9B%E6%9C%BA%E5%99%A8%E6%89%A7%E8%A1%8C"><span class="nav-number">5.1.</span> <span class="nav-text">指定某些机器执行</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%80%E6%AD%A5%E4%B8%80%E6%AD%A5%E7%9A%84%E6%89%A7%E8%A1%8C%E4%B8%94%E7%A1%AE%E8%AE%A4"><span class="nav-number">5.2.</span> <span class="nav-text">一步一步的执行且确认</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#playbook"><span class="nav-number">6.</span> <span class="nav-text">playbook</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#tags"><span class="nav-number">6.1.</span> <span class="nav-text">tags</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">6.2.</span> <span class="nav-text">变量</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#DEBUG"><span class="nav-number">6.2.1.</span> <span class="nav-text">DEBUG</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E5%8F%98%E9%87%8F"><span class="nav-number">6.2.2.</span> <span class="nav-text">注册变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BA%A4%E4%BA%92"><span class="nav-number">6.2.3.</span> <span class="nav-text">交互</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E8%A1%8C%E4%BC%A0%E5%80%BC"><span class="nav-number">6.2.4.</span> <span class="nav-text">命令行传值</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%BB%E6%9C%BA-%E7%BB%84-%E5%8F%98%E9%87%8F"><span class="nav-number">6.2.5.</span> <span class="nav-text">主机(组)变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#set-fact%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">6.2.6.</span> <span class="nav-text">set_fact定义变量</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%86%85%E7%BD%AE%E5%8F%98%E9%87%8F"><span class="nav-number">6.2.7.</span> <span class="nav-text">内置变量</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF"><span class="nav-number">6.3.</span> <span class="nav-text">循环</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#with-items"><span class="nav-number">6.3.1.</span> <span class="nav-text">with_items</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-list"><span class="nav-number">6.3.2.</span> <span class="nav-text">with_list</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-flattened"><span class="nav-number">6.3.3.</span> <span class="nav-text">with_flattened</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-together"><span class="nav-number">6.3.4.</span> <span class="nav-text">with_together</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-cartesian"><span class="nav-number">6.3.5.</span> <span class="nav-text">with_cartesian</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-indexed-items"><span class="nav-number">6.3.6.</span> <span class="nav-text">with_indexed_items</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-sequence"><span class="nav-number">6.3.7.</span> <span class="nav-text">with_sequence</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-dict"><span class="nav-number">6.3.8.</span> <span class="nav-text">with_dict</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-subelements"><span class="nav-number">6.3.9.</span> <span class="nav-text">with_subelements</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-file"><span class="nav-number">6.3.10.</span> <span class="nav-text">with_file</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#with-fileglob"><span class="nav-number">6.3.11.</span> <span class="nav-text">with_fileglob</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.</span> <span class="nav-text">判断</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AF%94%E8%BE%83%E7%AC%A6"><span class="nav-number">6.4.1.</span> <span class="nav-text">比较符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">6.4.2.</span> <span class="nav-text">逻辑运算符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.3.</span> <span class="nav-text">文件判断</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.4.</span> <span class="nav-text">变量判断</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E7%BB%93%E6%9E%9C%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.5.</span> <span class="nav-text">执行结果判断</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.6.</span> <span class="nav-text">文件类型判断</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.7.</span> <span class="nav-text">字符串判断</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B4%E9%99%A4%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.8.</span> <span class="nav-text">整除判断</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%88%A4%E6%96%AD"><span class="nav-number">6.4.9.</span> <span class="nav-text">其他判断</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#handler"><span class="nav-number">6.5.</span> <span class="nav-text">handler</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#include-amp-amp-import-tasks"><span class="nav-number">6.6.</span> <span class="nav-text">include &amp;&amp; import tasks</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A8%A1%E7%89%88"><span class="nav-number">6.7.</span> <span class="nav-text">模版</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%8D%A0%E4%BD%8D%E7%AC%A6"><span class="nav-number">6.7.1.</span> <span class="nav-text">占位符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%BE%8B%E5%AD%90"><span class="nav-number">6.7.2.</span> <span class="nav-text">例子</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%92%E8%89%B2"><span class="nav-number">6.8.</span> <span class="nav-text">角色</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84"><span class="nav-number">6.8.1.</span> <span class="nav-text">目录结构</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A7%92%E8%89%B2%E4%BE%8B%E5%AD%90"><span class="nav-number">6.8.2.</span> <span class="nav-text">角色例子</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%87%E6%BB%A4%E5%99%A8"><span class="nav-number">6.9.</span> <span class="nav-text">过滤器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#lookup"><span class="nav-number">6.10.</span> <span class="nav-text">lookup</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0-amp-amp-%E5%8F%AA%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1"><span class="nav-number">6.11.</span> <span class="nav-text">在本地&amp;&amp;只执行一次</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B9%B6%E8%A1%8C%E6%89%A7%E8%A1%8C"><span class="nav-number">6.12.</span> <span class="nav-text">并行执行</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Nature丿灵然</p>
+  <div class="site-description" itemprop="description">Nature丿灵然的博客</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/NatureLR" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;NatureLR" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/1127711564@qq.com" title="E-Mail → 1127711564@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.naturelr.cc/2020/12/16/Ansible%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Nature丿灵然">
+      <meta itemprop="description" content="Nature丿灵然的博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Nature丿灵然">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Ansible基本使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-12-16 13:26:00" itemprop="dateCreated datePublished" datetime="2020-12-16T13:26:00+08:00">2020-12-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-06-17 14:50:48" itemprop="dateModified" datetime="2021-06-17T14:50:48+08:00">2021-06-17</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%BF%90%E7%BB%B4/" itemprop="url" rel="index"><span itemprop="name">运维</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>Ansible是一个自动化运维工具，可以实现批量配置，部署，命令等功能</p>
+<span id="more"></span>
+
+<h4 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h4><p>yum 安装</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">yum -y <span class="token function">install</span> ansible<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>pip安装</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pip <span class="token function">install</span> ansible<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="配置路径"><a href="#配置路径" class="headerlink" title="配置路径"></a>配置路径</h4><p>默认读取<code>/etc/ansible/</code>目录下的<code>主机清单</code>和<code>规则</code></p>
+<h4 id="主机清单"><a href="#主机清单" class="headerlink" title="主机清单"></a>主机清单</h4><blockquote>
+<p>记录ansible需要执行操作的目标机器文件，默认读取<code>/etc/ansible/hosts</code>，一般通过 <code>-i</code>参数指定,也可以分类写到一个文件夹下</p>
+</blockquote>
+<ul>
+<li>#开头为注释</li>
+<li>忽略空行</li>
+<li>组由[组名]定义</li>
+<li>主机名和域名都可以</li>
+<li>一个ip或域名可以是组的成员</li>
+<li>没有分组的主机写在任意的一个组的前面</li>
+</ul>
+<h5 id="连续IP"><a href="#连续IP" class="headerlink" title="连续IP"></a>连续IP</h5><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token comment"># 等价于 192.168.1.1 192.168.1.2 192.168.1.2 192.168.1.3 192.168.1.4等等</span>
+192.168.1.[1:4]
+
+<span class="token comment"># 等价于 server1.example.com server2.example.com server3.example.com等等</span>
+server[1:3].example.com<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h5><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">192.168.1.1 ansible_ssh_user<span class="token attr-value"><span class="token punctuation">=</span>root ansible_ssh_pass=root</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h6 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h6><ul>
+<li>ansible_ssh_host              目标主机地址</li>
+<li>ansible_ssh_port              目标主机端口，默认22</li>
+<li>ansible_ssh_user              目标主机用户</li>
+<li>ansible_ssh_pass              目标主机ssh密码</li>
+<li>ansible_sudo_pass             sudo密码</li>
+<li>ansible_sudo_exe</li>
+<li>ansible_connection            与主机的连接类型，比如：local,ssh或者paramiko</li>
+<li>ansible_ssh_private_key_file  私钥地址</li>
+<li>ansible_shell_type            目标系统的shell类型</li>
+<li>ansible_python_interpreter    python版本</li>
+</ul>
+<h5 id="别名"><a href="#别名" class="headerlink" title="别名"></a>别名</h5><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini">test1 ansible_ssh_port<span class="token attr-value"><span class="token punctuation">=</span>22 ansible_ssh_host=192.168.1.1 ansible_ssh_user=root  　　# 别名test1</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h5 id="主机组"><a href="#主机组" class="headerlink" title="主机组"></a>主机组</h5><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token selector">[foo]</span>
+192.168.1.1
+192.168.2.1<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="主机组嵌套"><a href="#主机组嵌套" class="headerlink" title="主机组嵌套"></a>主机组嵌套</h5><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token selector">[db]</span>
+192.168.1.1
+
+<span class="token selector">[server]</span>
+192.168.2.1
+
+<span class="token selector">[all:children]</span>
+db
+server<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="主机组参数"><a href="#主机组参数" class="headerlink" title="主机组参数"></a>主机组参数</h5><pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token selector">[test]</span>
+name1 ansible_ssh_host<span class="token attr-value"><span class="token punctuation">=</span>192.168.1.[1:3]</span>
+
+<span class="token selector">[test:vars]</span>
+<span class="token constant">ansible_ssh_user</span><span class="token attr-value"><span class="token punctuation">=</span>root</span>
+<span class="token constant">ansible_ssh_pass</span><span class="token attr-value"><span class="token punctuation">=</span>"root"</span>
+<span class="token constant">testvar</span><span class="token attr-value"><span class="token punctuation">=</span>"test"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="模块"><a href="#模块" class="headerlink" title="模块"></a>模块</h4><blockquote>
+<p>ansible的功能都是通过模块来完成的 <br><code>ansible-doc -s &lt;模块名&gt;</code>查看模块的参数 <br><code>ansible-doc -l</code> 查看所有模块</p>
+</blockquote>
+<h5 id="常用模块"><a href="#常用模块" class="headerlink" title="常用模块"></a>常用模块</h5><blockquote>
+<p>参数中的<code>free_form</code>是各个模块的命令或args，并不是一个存在的参数</p>
+</blockquote>
+<h6 id="command"><a href="#command" class="headerlink" title="command"></a>command</h6><blockquote>
+<p>在目标主机上执行命令</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>free_form              必选表在目标机器上执行的命令</li>
+<li>chdir                  在目标主机的哪里执行命令</li>
+<li>creates                文件存在时就不执行此命令</li>
+<li>removes                和creates相反存在时就执行</li>
+</ul>
+</li>
+<li>例子：ansible test -m command -a “chdir=/var/log removes=kern.log cat kern.log” /var/log下kern.log存在就查看kern.log</li>
+</ul>
+<h6 id="shell"><a href="#shell" class="headerlink" title="shell"></a>shell</h6><blockquote>
+<p>和command一样不过command不支持重定向等管道操作，shell会调用<code>/bin/sh</code>执行</p>
+</blockquote>
+<ul>
+<li>参数：  <ul>
+<li>free_form:             执行的命令</li>
+<li>chdir:                 改变运行执行的目录</li>
+<li>creates:               文件存在则不就不执行命令</li>
+<li>executable:            改变命令说用的shell解释器，默认为/bin/sh</li>
+<li>removes:               和creates相反存在时就执行</li>
+</ul>
+</li>
+<li>例子：ansible  test -m shell -a “cat /etc/hosts”</li>
+</ul>
+<h6 id="script"><a href="#script" class="headerlink" title="script"></a>script</h6><blockquote>
+<p>在目标主机上执行本地主机的脚本</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>free_form:             需要执行的脚本路径</li>
+<li>chdir:                 执行脚本的目录</li>
+<li>creates:               目标机器的文件存在则不执行</li>
+<li>removes:               目标机器的文件存在则不执行</li>
+</ul>
+</li>
+<li>例子： ansible test -m script -a “test.sh”</li>
+</ul>
+<h6 id="copy"><a href="#copy" class="headerlink" title="copy"></a>copy</h6><blockquote>
+<p>复制本地文件或文件夹到目标主机上</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>src：                   指定需要copy的文件或目录</li>
+<li>dest：                  文件将被拷贝到目标主机的哪个目录中，dest为必须参数</li>
+<li>content                 不适用src时用此参数写入内容</li>
+<li>force:                  目标主机路径已经有文件且内容不相同时是否覆盖</li>
+<li>backup:                 目标主机已经有文件且内容不同时是否备份</li>
+<li>owner:                  拷贝到目标主机后的所有者</li>
+<li>group:                  拷贝到目标主机后的属组</li>
+<li>mode:                   拷贝到目标主机后的权限</li>
+</ul>
+</li>
+<li>例子： ansible test -m copy -a “src=/root/test.sh dest=/tmp”</li>
+</ul>
+<h6 id="file"><a href="#file" class="headerlink" title="file"></a>file</h6><blockquote>
+<p>对目标主机的文件管理</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>path：                  指定目标目录或文件</li>
+<li>state：<ul>
+<li>directory：           如果目录不存在，创建目录</li>
+<li>file：                即使文件不存在，也不会被创建</li>
+<li>link：                创建软连接</li>
+<li>hard：                创建硬连接</li>
+<li>touch：               如果文件不存在，则会创建一个新的文件，如果文件或目录已存在，则更新其最后修改时</li>
+<li>absent：              删除目录、文件或者取消链接文</li>
+</ul>
+</li>
+<li>src：                   当state设置为link或者hard时，需要操作的源文件</li>
+<li>force:                  需要在两种情况下强制创建软连接，一种是源文件不存在但之后会建立的情况下；另一种是目标连接已存在，需要先取消之前的软连接，有两个选项：yes|no</li>
+<li>owner：                 指定被操作文件的所有者，</li>
+<li>group：                 指定被操作文件的所属组</li>
+<li>mode：                  权限</li>
+<li>recurse：               文件为目录时，递归目录</li>
+</ul>
+</li>
+<li>例子：<ul>
+<li>设置权限为777所属组为minikube所有者为：ansible test -m file -a “path=/tmp/test.sh  mode=777 owner=minikube group=minikube”</li>
+<li>创建<code>/etc/hosts</code>的软连接到home目录：ansible test -m file -a “path=/root/hosts  src=/etc/hosts state=link”</li>
+</ul>
+</li>
+</ul>
+<h6 id="blockinfile"><a href="#blockinfile" class="headerlink" title="blockinfile"></a>blockinfile</h6><blockquote>
+<p>在指定的文件里修改一段文本</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>path：                 必须参数，指定要操作的文件</li>
+<li>block：                指定要操作的一段文本</li>
+<li>marker：               ansibel默认修改时会添加一个以#开头标记，可以改为自定义</li>
+<li>state:                 present为插入或者更新;absent删除</li>
+<li>insertafter：          默认会将文本插入到指定的位置的后面</li>
+<li>insertbefore：         默认会将文本插入到指定的位置的前面</li>
+<li>backup：               是否在修改文件之前对文件进行备份。</li>
+<li>create：               当要操作的文件并不存在时，是否创建对应的文件。</li>
+</ul>
+</li>
+<li>例子：<ul>
+<li>在目标主机的/tmp/test文件中插入ansible-test且标记内容为teststart：ansible localhost -m blockinfile -a “path=/tmp/test block=ansible-test marker=’#{mark}teststart’”</li>
+</ul>
+</li>
+</ul>
+<h6 id="lineinfile"><a href="#lineinfile" class="headerlink" title="lineinfile"></a>lineinfile</h6><blockquote>
+<p>和<code>blockinfile</code>相似不过是一行还可以使用正则表达式</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>path：                  必须参数，指定要操作的文件</li>
+<li>line:                   要指定的文本内容</li>
+<li>regexp：                正则匹配对应的行，当替换文本时，如果有多行文本都能被匹配，则只有最后面被匹配到的那行文本才会被替换，当删除文本时，如果有多行文本都能被匹配，这么这些行都会被删除</li>
+<li>state：                 absent为删除，state的默认值为present</li>
+<li>backrefs：              在使用正则匹配时如果没有匹配到默认会在文件的末尾插入要替换的文本，设置为yes则不会</li>
+<li>insertafter：           默认会将文本插入到指定的位置的后面</li>
+<li>insertbefore：          默认会将文本插入到指定的位置的前面</li>
+<li>backup：                是否在修改文件之前对文件进行备份</li>
+<li>create：                当要操作的文件并不存在时，是否创建对应的文件</li>
+</ul>
+</li>
+<li>例子：<ul>
+<li>将/tmp/test的文件中#kern开头行换成kern.* /var/log/kern.log:ansible localhost -m lineinfile -a ‘path=/tmp/test regexp=”^#kern” line=”kern.* /var/log/kern.log”‘</li>
+</ul>
+</li>
+</ul>
+<h6 id="replace"><a href="#replace" class="headerlink" title="replace"></a>replace</h6><blockquote>
+<p>文本替换模块</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>path：                 必须参数，指定要操作的文件，2.3版本之前，只能使用dest, destfile, name指定要操作的文件，2.4版本中，仍然可以使用这些参数名，这些参数名作为path参数的别名使用。</li>
+<li>regexp:                必须参数，指定一个python正则表达式，文件中与正则匹配的字符串将会被替换。</li>
+<li>replace：              指定最终要替换成的字符串。</li>
+<li>backup：               是否在修改文件之前对文件进行备份，最好设置为yes。</li>
+</ul>
+</li>
+<li>例子：将/etc/test文件中所有的<code>localhost</code>换成<code>FOO</code>: ansible localhost -m replace -a ‘path=/tmp/test  regexp=”localhost” replace=foo’</li>
+</ul>
+<h6 id="systemd"><a href="#systemd" class="headerlink" title="systemd"></a>systemd</h6><blockquote>
+<p>运行systemd相关的命令</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>enabled:               是否设置为开机启动</li>
+<li>name:                  systemd模块名字</li>
+<li>state:                 想要设置的状态，比如<code>restartd</code>重启<code>started</code>启动、<code>stopped</code>停止、<code>reloaded</code>重新加载</li>
+<li>daemon_reload:         运行daemon-reload命令</li>
+<li>daemon_reexec:         运行daemon_reexec命令</li>
+</ul>
+</li>
+<li>例子：ansible test -m systemd -a “name=rsyslog state=restarted”</li>
+</ul>
+<h6 id="yum"><a href="#yum" class="headerlink" title="yum"></a>yum</h6><blockquote>
+<p>yum包管理</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>action: yum</li>
+<li>conf_file              yum的配置文件</li>
+<li>disable_gpg_check      关闭gpg_check</li>
+<li>disablerepo            不启用某个源</li>
+<li>enablerepo             启用某个源</li>
+<li>name                   指定要安装的包，如果有多个版本需要指定版本，否则安装最新的包</li>
+<li>state                  安装:<code>present</code>，安装最新版:<code>latest</code>，卸载程序包:<code>absent</code></li>
+</ul>
+</li>
+<li>例子: 安装最新版psree命令：ansible localhost -m yum -a “name=psmisc state=latest”</li>
+</ul>
+<h6 id="cron"><a href="#cron" class="headerlink" title="cron"></a>cron</h6><blockquote>
+<p>定时模块</p>
+</blockquote>
+<ul>
+<li>参数：<ul>
+<li>backup                 如果设置，创建一个crontab备份</li>
+<li>cron_file              如果指定, 使用这个文件cron.d，而不是单个用户crontab</li>
+<li>day                    日应该运行的工作( 1-31, *, */2, etc )</li>
+<li>hour                   小时 ( 0-23, *, */2, etc )</li>
+<li>job                    指明运行的命令是什么</li>
+<li>minute                 分钟( 0-59, *, */2, etc )</li>
+<li>month                  月( 1-12, *, */2, etc )</li>
+<li>name                   定时任务描述</li>
+<li>reboot                 任务在重启时运行，不建议使用，建议使用special_time</li>
+<li>special_time           特殊的时间范围，参数：reboot（重启时）,annually（每年）,monthly（每月）,weekly（每周）,daily（每天）,hourly（每小时）</li>
+<li>state                  指定状态，默认<code>prsent</code>添加定时任务，<code>absent</code>删除定时任务</li>
+<li>user                   以哪个用户的身份执行</li>
+<li>weekday                周 ( 0-6 for Sunday-Saturday, *, etc )</li>
+</ul>
+</li>
+<li>例子：<ul>
+<li>每天8点半执行cat /etc/hosts这个命令：ansible localhost -m cron -a “name=test minute=30 hour=8 day=* job=’cat /etc/hosts’”</li>
+<li>删除test这个cronjob：ansible localhost -m cron -a “name=test state=absent”</li>
+<li>重启时rm -rf /tmp命令： ansible test -m cron -a ‘name=”test” special_time=reboot job=”rm -rf /tmp”‘</li>
+</ul>
+</li>
+</ul>
+<h4 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h4><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell"><span class="token comment"># ansible &lt;主机> -m &lt;模块> -a &lt;模块参数></span>
+ansible <span class="token operator">&lt;</span>主机<span class="token operator">></span> -m shell -a <span class="token string">"cat /etc/hosts"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span></span></code></pre>
+
+<h5 id="指定某些机器执行"><a href="#指定某些机器执行" class="headerlink" title="指定某些机器执行"></a>指定某些机器执行</h5><p>ansbile &lt;主机组&gt; -m &lt;模块&gt; -a &lt;参数&gt; –limit &lt;主机&gt;  指定执行主机<br>ansbile &lt;主机组&gt; -m &lt;模块&gt; -a &lt;参数&gt; –limit &lt;!主机&gt; 排除执行的主机<br>ansbile &lt;主机组&gt; -m &lt;模块&gt; -a &lt;参数&gt; –limit &lt;主机1：主机2&gt; 只在主机1和主机2中执行</p>
+<h5 id="一步一步的执行且确认"><a href="#一步一步的执行且确认" class="headerlink" title="一步一步的执行且确认"></a>一步一步的执行且确认</h5><p>在执行 剧本的时候加上 –step，每执行一个任务就询问一次</p>
+<pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">ansible-playbook  -i inventories test.yaml --step<span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<h4 id="playbook"><a href="#playbook" class="headerlink" title="playbook"></a>playbook</h4><blockquote>
+<p>剧本就是一系列ansible命令组合类似shell脚本和shell命令</p>
+</blockquote>
+<p>一个将内核日志输出到/var/log/kern.log的剧本</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> all                 <span class="token comment"># 要执行的主机组</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 修改rsyslog配置文件 <span class="token comment"># 任务名字</span>
+    <span class="token key atrule">tags</span><span class="token punctuation">:</span> rsyslog            <span class="token comment"># 任务标签</span>
+    <span class="token key atrule">lineinfile</span><span class="token punctuation">:</span>              <span class="token comment"># 任务模块</span>
+       <span class="token key atrule">dest</span><span class="token punctuation">:</span> /etc/rsyslog.conf
+       <span class="token key atrule">regexp</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; item.regexp &#125;&#125;"</span>
+       <span class="token key atrule">line</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; item.line &#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>              <span class="token comment"># 循环执行</span>
+     <span class="token punctuation">-</span> <span class="token punctuation">&#123;</span> <span class="token key atrule">regexp</span><span class="token punctuation">:</span> <span class="token string">'^#kern'</span><span class="token punctuation">,</span><span class="token key atrule">line</span><span class="token punctuation">:</span> <span class="token string">'kern.* /var/log/kern.log'</span> <span class="token punctuation">&#125;</span>
+     <span class="token punctuation">-</span> <span class="token punctuation">&#123;</span> <span class="token key atrule">regexp</span><span class="token punctuation">:</span> <span class="token string">'^#\$ModLoad imklog'</span><span class="token punctuation">,</span><span class="token key atrule">line</span><span class="token punctuation">:</span> <span class="token string">'$ModLoad imklog'</span> <span class="token punctuation">&#125;</span>
+     <span class="token punctuation">-</span> <span class="token punctuation">&#123;</span> <span class="token key atrule">regexp</span><span class="token punctuation">:</span> <span class="token string">'^#\$ModLoad imjournal'</span><span class="token punctuation">,</span><span class="token key atrule">line</span><span class="token punctuation">:</span> <span class="token string">'$ModLoad imjournal'</span> <span class="token punctuation">&#125;</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 修改logrotate的syslog配置
+    <span class="token key atrule">shell</span><span class="token punctuation">:</span> sed <span class="token punctuation">-</span>i '1i\\/var\/log\/kern.log' /etc/logrotate.d/syslog
+    <span class="token key atrule">tags</span><span class="token punctuation">:</span> logrotate
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 重启rsyslog服务
+    <span class="token key atrule">tags</span><span class="token punctuation">:</span> rsyslog
+    <span class="token key atrule">systemd</span><span class="token punctuation">:</span>
+      <span class="token key atrule">name</span><span class="token punctuation">:</span> rsyslog
+      <span class="token key atrule">state</span><span class="token punctuation">:</span> restarted
+      <span class="token key atrule">enabled</span><span class="token punctuation">:</span> yes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="tags"><a href="#tags" class="headerlink" title="tags"></a>tags</h5><blockquote>
+<p>标签可以灵活的选择执行那些task或其他的对象</p>
+</blockquote>
+<p>特殊的标签：</p>
+<ul>
+<li>always 当把标签设置为always即使使用–tags指定tags任务也会执行，可以使用–skip-tags always跳过</li>
+<li>never  和always相反即使用–tags指定也不会执行</li>
+<li>tagged 只执行有标签的任务</li>
+<li>untagged 只执行未打标签的含有always也会执行</li>
+<li>all 所有都执行不用指定</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 创建文件test1
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> test1
+      <span class="token key atrule">file</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /tmp/test1
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> touch
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 创建文件test2
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> always
+      <span class="token key atrule">file</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /tmp/test2
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> touch
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 创建文件test3
+      <span class="token key atrule">file</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /tmp/test3
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> touch<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><blockquote>
+<p>变量非常常用</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> /tmp/
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 创建文件test1
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> test1
+      <span class="token key atrule">file</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; path &#125;&#125;test1"</span>
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> touch<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="DEBUG"><a href="#DEBUG" class="headerlink" title="DEBUG"></a>DEBUG</h6><blockquote>
+<p>调试打印</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> /tmp/
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 创建文件test1
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> test1
+      <span class="token key atrule">file</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; path &#125;&#125;test1"</span>
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> touch
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> print var
+      <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+        <span class="token key atrule">var</span><span class="token punctuation">:</span> path
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> msg
+      <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+        <span class="token key atrule">msg</span><span class="token punctuation">:</span> this is debug info<span class="token punctuation">,</span>The test file has been touched<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="注册变量"><a href="#注册变量" class="headerlink" title="注册变量"></a>注册变量</h6><blockquote>
+<p>将模块运行的返回值进行赋值</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> test shell
+    <span class="token key atrule">shell</span><span class="token punctuation">:</span> <span class="token string">"cat /etc/hosts"</span>
+    <span class="token key atrule">register</span><span class="token punctuation">:</span> testvar
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> shell 模块返回值
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">var</span><span class="token punctuation">:</span> testvar
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 指定shell模块的返回
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;testvar.stdout&#125;&#125;"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="交互"><a href="#交互" class="headerlink" title="交互"></a>交互</h6><blockquote>
+<p>命令行交互输入的变脸类似c语言的scan函数</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">vars_prompt</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"user"</span>
+      <span class="token key atrule">prompt</span><span class="token punctuation">:</span> "请选择帐号 \n
+      root \n
+      poweruser \n
+      test \n
+      "
+      <span class="token key atrule">private</span><span class="token punctuation">:</span> no <span class="token comment"># 输入的字符显示出来</span>
+      <span class="token key atrule">default</span><span class="token punctuation">:</span> root <span class="token comment"># 默认值</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"passwd"</span>
+      <span class="token key atrule">prompt</span><span class="token punctuation">:</span> <span class="token string">"请输入密码"</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+   <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 输出变量
+     <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> 你的帐号：<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>user<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span>;你的密码：<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>passwd<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="命令行传值"><a href="#命令行传值" class="headerlink" title="命令行传值"></a>命令行传值</h6><blockquote>
+<p>通过命令行输入变量的值</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">var2</span><span class="token punctuation">:</span> default
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"通过命令行传值"</span>
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> var的值是：<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>var<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span>;var2的值： <span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>var2<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>将上面的yaml保存为test.yaml然后执行 <code>ansible-playbook -i inventories test.yaml --extra-vars &quot;var=test&quot; -e &quot;var2=test2&quot;</code>,-e是–extra-vars的缩写，<code>命令行的值会覆盖默认值</code><br>还可以使用<code>@</code>传变量文件</p>
+<h6 id="主机-组-变量"><a href="#主机-组-变量" class="headerlink" title="主机(组)变量"></a>主机(组)变量</h6><blockquote>
+<p>为每个主机（组）设置的变量，当使用次主机时变量生效</p>
+</blockquote>
+<pre class="line-numbers language-ini" data-language="ini"><code class="language-ini"><span class="token selector">[test]</span>
+
+localhost hostvar1<span class="token attr-value"><span class="token punctuation">=</span>test_host_var hostvar2=host_var_test</span>
+
+<span class="token selector">[test:vars]</span>
+<span class="token constant">groupvar</span><span class="token attr-value"><span class="token punctuation">=</span>testgroupvar</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"主机变量"</span>
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> hostvar1的值是：<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>hostvar1<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span>;hostvar2的值： <span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>hostvar2<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> <span class="token string">"主机组变量"</span>
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> test组的变量是：<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span>groupvar<span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="set-fact定义变量"><a href="#set-fact定义变量" class="headerlink" title="set_fact定义变量"></a>set_fact定义变量</h6><blockquote>
+<p>通过set_fact模块配置变量</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">set_fact</span><span class="token punctuation">:</span>
+      <span class="token key atrule">testvasr</span><span class="token punctuation">:</span> testvas
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 打印值
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;testvasr&#125;&#125;"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="内置变量"><a href="#内置变量" class="headerlink" title="内置变量"></a>内置变量</h6><blockquote>
+<p>ansible有一些保留变量</p>
+</blockquote>
+<ul>
+<li>ansible_version</li>
+<li>hostvars</li>
+<li>inventory_hostname</li>
+<li>inventory_hostname_short</li>
+<li>play_hosts</li>
+<li>groups</li>
+<li>group_names</li>
+</ul>
+<h5 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h5><h6 id="with-items"><a href="#with-items" class="headerlink" title="with_items"></a>with_items</h6><blockquote>
+<p>以条目为单位循环with_items下的的元素</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 循环打印变量
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>
+     <span class="token punctuation">-</span> <span class="token number">1</span>
+     <span class="token punctuation">-</span> <span class="token number">2</span>
+     <span class="token punctuation">-</span> <span class="token number">3</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 循环打印kv变量
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"k的值是：&#123;&#123;item.k&#125;&#125;:v的值是：&#123;&#123;item.v&#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">&#123;</span> <span class="token key atrule">k</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token key atrule">v</span><span class="token punctuation">:</span> <span class="token number">2</span> <span class="token punctuation">&#125;</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">&#123;</span> <span class="token key atrule">k</span><span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token key atrule">v</span><span class="token punctuation">:</span> <span class="token number">4</span> <span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-list"><a href="#with-list" class="headerlink" title="with_list"></a>with_list</h6><blockquote>
+<p>以list为单位循环元素,也即是一次性答应出一个list而不是list里面的元素</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 循环打印变量
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">]</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> 循环打印list
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-flattened"><a href="#with-flattened" class="headerlink" title="with_flattened"></a>with_flattened</h6><blockquote>
+<p>和with_item很像将item一个元素一个元素的打印出来</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 循环打印item
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">]</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> 循环打印list
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_list</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">]</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> 循环打印flattened
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_flattened</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-together"><a href="#with-together" class="headerlink" title="with_together"></a>with_together</h6><blockquote>
+<p>将list的元素纵排打印</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 循环打印item
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">]</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> 循环打印together
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_together</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">]</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-cartesian"><a href="#with-cartesian" class="headerlink" title="with_cartesian"></a>with_cartesian</h6><blockquote>
+<p>将list的元素交叉打印出来</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> 循环打印with_cartesian
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_cartesian</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-indexed-items"><a href="#with-indexed-items" class="headerlink" title="with_indexed_items"></a>with_indexed_items</h6><blockquote>
+<p>将所有list变成一个大的list然后将这个大的list按顺序从0开始添加索引和值</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> 循环打印with_indexed_items
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;item&#125;&#125;"</span>
+    <span class="token key atrule">with_indexed_items</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">]</span>
+      <span class="token punctuation">-</span> <span class="token punctuation">[</span>a<span class="token punctuation">,</span>b<span class="token punctuation">,</span>c<span class="token punctuation">]</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-sequence"><a href="#with-sequence" class="headerlink" title="with_sequence"></a>with_sequence</h6><blockquote>
+<p>类似golang序言的for循环，定义步长开始值，结束值</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> with_sequence
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; item &#125;&#125;"</span>
+    <span class="token key atrule">with_sequence</span><span class="token punctuation">:</span> start=1 end=10 stride=2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-dict"><a href="#with-dict" class="headerlink" title="with_dict"></a>with_dict</h6><blockquote>
+<p>顾名思义是循环处理字典的</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">account</span><span class="token punctuation">:</span>
+      <span class="token key atrule">user</span><span class="token punctuation">:</span> root
+      <span class="token key atrule">passwd</span><span class="token punctuation">:</span> <span class="token number">123456</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> with_dict
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"键是：&#123;&#123; item.key &#125;&#125; ；值是：&#123;&#123; item.value &#125;&#125;"</span>
+    <span class="token key atrule">with_dict</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123;account&#125;&#125;"</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-subelements"><a href="#with-subelements" class="headerlink" title="with_subelements"></a>with_subelements</h6><blockquote>
+<p>也是对字典镜像操作，制定的字段作为key把其他字段作为value</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">account</span><span class="token punctuation">:</span>
+      <span class="token key atrule">root</span><span class="token punctuation">:</span>
+        <span class="token key atrule">user</span><span class="token punctuation">:</span> root
+        <span class="token key atrule">passwd</span><span class="token punctuation">:</span> <span class="token number">123456</span>
+        <span class="token key atrule">open</span><span class="token punctuation">:</span> 
+          <span class="token punctuation">-</span> tmp
+          <span class="token punctuation">-</span> server
+      <span class="token key atrule">test</span><span class="token punctuation">:</span>
+        <span class="token key atrule">user</span><span class="token punctuation">:</span> test
+        <span class="token key atrule">passwd</span><span class="token punctuation">:</span> abc
+        <span class="token key atrule">open</span><span class="token punctuation">:</span> 
+          <span class="token punctuation">-</span> hosts
+          <span class="token punctuation">-</span> log
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> with_sequence
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; item &#125;&#125;"</span>
+    <span class="token key atrule">with_subelements</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> <span class="token string">"&#123;&#123;account&#125;&#125;"</span>
+      <span class="token punctuation">-</span> open<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-file"><a href="#with-file" class="headerlink" title="with_file"></a>with_file</h6><blockquote>
+<p>按行读取一个文件的内容</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> with_file
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; item &#125;&#125;"</span>
+    <span class="token key atrule">with_file</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> /etc/hosts<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="with-fileglob"><a href="#with-fileglob" class="headerlink" title="with_fileglob"></a>with_fileglob</h6><blockquote>
+<p>读取文件名字</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> with_fileglob
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; item &#125;&#125;"</span>
+    <span class="token key atrule">with_fileglob</span><span class="token punctuation">:</span> 
+      <span class="token punctuation">-</span> /etc/*<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="判断"><a href="#判断" class="headerlink" title="判断"></a>判断</h5><h6 id="比较符"><a href="#比较符" class="headerlink" title="比较符"></a>比较符</h6><ul>
+<li>== 相等</li>
+<li>!= 不等</li>
+<li>&gt; 大于</li>
+<li>&lt;  小于</li>
+<li>&gt;=小于等于</li>
+<li>&lt;=大于等于</li>
+</ul>
+<h6 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h6><ul>
+<li>and 与</li>
+<li>or 或</li>
+<li>not 非</li>
+<li>() 组合</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span> <span class="token punctuation">:</span> 判断
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; item &#125;&#125;"</span>
+    <span class="token key atrule">with_items</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token number">1</span>
+      <span class="token punctuation">-</span> <span class="token number">2</span>
+      <span class="token punctuation">-</span> <span class="token number">3</span>
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> item <span class="token punctuation">></span> 2<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="文件判断"><a href="#文件判断" class="headerlink" title="文件判断"></a>文件判断</h6><ul>
+<li>is exists 如果文件存在则为真</li>
+<li>is not exists  如果文件不存在则为假</li>
+<li>not &lt;path&gt; is exists 和is not相同</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token comment">#gather_facts: false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">testpath</span><span class="token punctuation">:</span> /tmp/test
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 判断/tmp/test文件是否存在
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> 是centos
+    <span class="token key atrule">when</span><span class="token punctuation">:</span>  testpath is not exists<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="变量判断"><a href="#变量判断" class="headerlink" title="变量判断"></a>变量判断</h6><ul>
+<li>is defined 定义则为真</li>
+<li>is undefined 没定义则为真</li>
+<li>is none 为空则为真</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token comment">#gather_facts: false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">testpath</span><span class="token punctuation">:</span> /tmp/test
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 判断testpath是否存在
+    <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> testpath文件存在
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> testpath is defined<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="执行结果判断"><a href="#执行结果判断" class="headerlink" title="执行结果判断"></a>执行结果判断</h6><ul>
+<li>success 或 succeeded 执行成功则返回真</li>
+<li>failure 或 failed    执行失败则返回真</li>
+<li>change 或 changed    执行状态为changed则返回真</li>
+<li>skip 或 skipped      没有满足条件，而被跳过执行时，则返回真</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token comment">#gather_facts: false</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">shell</span><span class="token punctuation">:</span> cat /etc/hosts
+    <span class="token key atrule">register</span><span class="token punctuation">:</span> ret
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"执行成功"</span>
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> ret is success<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="文件类型判断"><a href="#文件类型判断" class="headerlink" title="文件类型判断"></a>文件类型判断</h6><ul>
+<li>file 是文件则为真</li>
+<li>directory 是目录则为真</li>
+<li>link 软连接则为真</li>
+<li>mount 挂载点则为真</li>
+<li>exists 存在则为真</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token comment">#gather_facts: false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> /etc/hosts
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; path &#125;&#125; 是个文件"</span> 
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> path is file<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="字符串判断"><a href="#字符串判断" class="headerlink" title="字符串判断"></a>字符串判断</h6><ul>
+<li>lower 字符为小写则为真</li>
+<li>upper 字符为大写则为真</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token comment">#gather_facts: false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">path</span><span class="token punctuation">:</span> TEST
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; path &#125;&#125; 是大写"</span> 
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> path is upper<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="整除判断"><a href="#整除判断" class="headerlink" title="整除判断"></a>整除判断</h6><ul>
+<li>even  偶数为真</li>
+<li>odd  奇数为真</li>
+<li>divisibleby(num) 整除则为真</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">X</span><span class="token punctuation">:</span> <span class="token number">5</span>
+    <span class="token key atrule">Y</span><span class="token punctuation">:</span> <span class="token number">6</span>
+    <span class="token key atrule">Z</span><span class="token punctuation">:</span> <span class="token number">66</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; X &#125;&#125; 是奇数"</span> 
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> X is odd
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; Y &#125;&#125; 是偶数"</span> 
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> Y is even
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; Z &#125;&#125; 能被66整除"</span> 
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> Z is divisibleby(66)<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="其他判断"><a href="#其他判断" class="headerlink" title="其他判断"></a>其他判断</h6><ul>
+<li>version 判断版本大小</li>
+<li>string 是字符则为真</li>
+<li>number 是数字则为真</li>
+<li>subset 一个list是另一个list的子集则为真</li>
+<li>superset 一个list<code>不</code>是另一个list的子集则为真</li>
+</ul>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">Versions</span><span class="token punctuation">:</span> 1.2.4
+    <span class="token key atrule">A</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token number">2</span>
+    <span class="token punctuation">-</span> <span class="token number">3</span>
+    <span class="token key atrule">B</span><span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">]</span>
+    <span class="token key atrule">str</span><span class="token punctuation">:</span> test
+    <span class="token key atrule">str2</span><span class="token punctuation">:</span> <span class="token number">2</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; Versions &#125;&#125; 版本是否大于1.2.1"</span> 
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> Versions is version("1.2.1"<span class="token punctuation">,</span>"<span class="token punctuation">></span>")
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> b是a的子集
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> B is subset(A)
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> str是字符串
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> str is string
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> str2 是数字
+    <span class="token key atrule">when</span><span class="token punctuation">:</span> str2 is number<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="handler"><a href="#handler" class="headerlink" title="handler"></a>handler</h5><blockquote>
+<p>在上面的例子中无论前面修改配置文件是否修改都会执行rsyslog重启，这样有些不妥 <br>handler的执行顺序与被notify的顺序无关</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token comment"># 这样只有配置文件真正被修改了才会执行重启</span>
+<span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 修改rsyslog配置文件
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> rsyslog
+      <span class="token key atrule">lineinfile</span><span class="token punctuation">:</span>
+         <span class="token key atrule">dest</span><span class="token punctuation">:</span> /etc/rsyslog.conf
+         <span class="token key atrule">regexp</span><span class="token punctuation">:</span> ^<span class="token comment">#kern</span>
+         <span class="token key atrule">line</span><span class="token punctuation">:</span> kern.* /var/log/kern.log
+      <span class="token key atrule">notify</span><span class="token punctuation">:</span>                <span class="token comment"># 引用handlers</span>
+        重启rsyslog服务
+  <span class="token key atrule">handlers</span><span class="token punctuation">:</span>                  <span class="token comment"># 和tasks同级</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 重启rsyslog服务
+      <span class="token key atrule">systemd</span><span class="token punctuation">:</span>
+         <span class="token key atrule">name</span><span class="token punctuation">:</span> rsyslog
+         <span class="token key atrule">state</span><span class="token punctuation">:</span> restarted
+         <span class="token key atrule">enabled</span><span class="token punctuation">:</span> yes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>meta关键字可以让notify之后立刻执行handlers</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 修改rsyslog配置文件
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> rsyslog
+      <span class="token key atrule">lineinfile</span><span class="token punctuation">:</span>
+         <span class="token key atrule">dest</span><span class="token punctuation">:</span> /etc/rsyslog.conf
+         <span class="token key atrule">regexp</span><span class="token punctuation">:</span> ^<span class="token comment">#kern</span>
+         <span class="token key atrule">line</span><span class="token punctuation">:</span> kern.* /var/log/kern.log
+      <span class="token key atrule">notify</span><span class="token punctuation">:</span>
+        重启rsyslog服务
+    <span class="token punctuation">-</span> <span class="token key atrule">meta</span><span class="token punctuation">:</span> flush_handlers
+    
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 查看配置文件状态
+      <span class="token key atrule">shell</span><span class="token punctuation">:</span> cat /etc/rsyslog.conf <span class="token punctuation">|</span>grep "kern.\<span class="token important">*"</span>
+      <span class="token key atrule">register</span><span class="token punctuation">:</span> ps
+    <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span> msg=<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span> ps.stdout <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span>
+
+  <span class="token key atrule">handlers</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 重启rsyslog服务
+      <span class="token key atrule">systemd</span><span class="token punctuation">:</span>
+         <span class="token key atrule">name</span><span class="token punctuation">:</span> rsyslog
+         <span class="token key atrule">state</span><span class="token punctuation">:</span> restarted
+         <span class="token key atrule">enabled</span><span class="token punctuation">:</span> yes<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<blockquote>
+<p>listen handlers组</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 修改rsyslog配置文件
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> rsyslog
+      <span class="token key atrule">lineinfile</span><span class="token punctuation">:</span>
+         <span class="token key atrule">dest</span><span class="token punctuation">:</span> /etc/rsyslog.conf
+         <span class="token key atrule">regexp</span><span class="token punctuation">:</span> ^<span class="token comment">#kern</span>
+         <span class="token key atrule">line</span><span class="token punctuation">:</span> kern.* /var/log/kern.log
+      <span class="token key atrule">notify</span><span class="token punctuation">:</span>
+         handler group1 <span class="token comment"># 通知了handler group1</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">meta</span><span class="token punctuation">:</span> flush_handlers 
+
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 查看配置文件状态
+      <span class="token key atrule">shell</span><span class="token punctuation">:</span> cat /etc/rsyslog.conf <span class="token punctuation">|</span>grep "kern.\<span class="token important">*"</span>
+      <span class="token key atrule">register</span><span class="token punctuation">:</span> ps
+    <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span> msg=<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span> ps.stdout <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span>
+
+  <span class="token key atrule">handlers</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 重启rsyslog服务
+      <span class="token key atrule">listen</span><span class="token punctuation">:</span> handler group1
+      <span class="token key atrule">systemd</span><span class="token punctuation">:</span>
+        <span class="token key atrule">name</span><span class="token punctuation">:</span> rsyslog
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> restarted
+        <span class="token key atrule">enabled</span><span class="token punctuation">:</span> yes
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 创建测试文件
+      <span class="token key atrule">listen</span><span class="token punctuation">:</span> handler group1
+      <span class="token key atrule">file</span><span class="token punctuation">:</span>
+        <span class="token key atrule">path</span><span class="token punctuation">:</span> /tmp/test
+        <span class="token key atrule">state</span><span class="token punctuation">:</span> touch<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="include-amp-amp-import-tasks"><a href="#include-amp-amp-import-tasks" class="headerlink" title="include &amp;&amp; import tasks"></a>include &amp;&amp; import tasks</h5><blockquote>
+<p>当task越来越多的时候如果都在一个文件不是很好管理，将一些相关性很强的写到一个文件然后引用另外的yaml文件 <br>import_tasks静态的，在playbook解析阶段将所有文件中的变量读取加载 <br>include_tasks动态则是在执行playbook之前才会加载自己变量</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 修改rsyslog配置文件
+      <span class="token key atrule">tags</span><span class="token punctuation">:</span> rsyslog
+      <span class="token key atrule">lineinfile</span><span class="token punctuation">:</span>
+         <span class="token key atrule">dest</span><span class="token punctuation">:</span> /etc/rsyslog.conf
+         <span class="token key atrule">regexp</span><span class="token punctuation">:</span> ^<span class="token comment">#kern</span>
+         <span class="token key atrule">line</span><span class="token punctuation">:</span> kern.* /var/log/kern.log
+    <span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 查看配置文件状态
+      <span class="token key atrule">import_tasks</span><span class="token punctuation">:</span> config.yaml
+<span class="token punctuation">---</span>
+<span class="token comment"># config.yaml</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 查看配置文件状态
+  <span class="token key atrule">shell</span><span class="token punctuation">:</span> cat /etc/rsyslog.conf <span class="token punctuation">|</span>grep "kern.\<span class="token important">*"</span>
+  <span class="token key atrule">register</span><span class="token punctuation">:</span> ps
+<span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span> msg=<span class="token punctuation">&#123;</span><span class="token punctuation">&#123;</span> ps.stdout <span class="token punctuation">&#125;</span><span class="token punctuation">&#125;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="模版"><a href="#模版" class="headerlink" title="模版"></a>模版</h5><blockquote>
+<p>有些时候应用的配置文件会根据部署的机器调整一些参数，但是大部分参数不需要调整额这个时候就需要模版来处理 <br>ansibel的template<code>模块</code>使用python的jinja2模版引擎</p>
+</blockquote>
+<ul>
+<li>参数:<ul>
+<li>owner  在目标主机上通过模版生成的文件的所属者</li>
+<li>group  在目标主机上通过模版生成的文件的所属组</li>
+<li>mode   在目标主机上通过模版生成的文件的权限</li>
+<li>force  目标主机上已经有了文件是否强制覆盖</li>
+<li>backup 目标主机上已经有了文件是否覆盖</li>
+</ul>
+</li>
+</ul>
+<h6 id="占位符"><a href="#占位符" class="headerlink" title="占位符"></a>占位符</h6><ul>
+<li>&lt;!–swig￼52–&gt; 表达式，比如变量、运算表达式、比较表达式等写法参考<a href="#%E6%AF%94%E8%BE%83%E7%AC%A6">比较符</a></li>
+<li>&lt;!–swig￼54–&gt; 控制语句,如if控制结构，for循环控制结构</li>
+<li> 注释，模板文件被渲染后，注释不会包含在最终生成的文件中</li>
+</ul>
+<h6 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h6><p>模版文件：</p>
+<pre class="line-numbers language-j2" data-language="j2"><code class="language-j2">基本变量替换
+&#123;&#123; testvar &#125;&#125;
+
+逻辑计算
+
+&#123;&#123; number &gt; 1 &#125;&#125;
+
+&#123;&#123; number is defined &#125;&#125;
+
+&#123;&#123; &#39;&#x2F;tmp&#39; is exists  &#125;&#125;
+
+数据结构取值
+&#123;&#123; account.user &#125;&#125;
+&#123;&#123; numbers.1 &#125;&#125;
+
+&#123;# 这个是注释 #&#125;
+&#123;# 
+这个是多行注释，
+不会在生成的末班中显示
+#&#125;
+
+判断
+&#123;% if numbers.1&gt;1 %&#125;
+嘿嘿嘿
+&#123;% endif %&#125;
+
+循环
+&#123;% for i in [3,14,15,9,26] -%&#125;
+&#123;&#123; i &#125;&#125; &#123;&#123;&#39; &#39;&#125;&#125;
+&#123;%- endfor %&#125;<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>playbook如下：</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">testvar</span><span class="token punctuation">:</span> footest
+    <span class="token key atrule">number</span><span class="token punctuation">:</span> <span class="token number">3</span>
+    <span class="token key atrule">account</span><span class="token punctuation">:</span>
+        <span class="token key atrule">user</span><span class="token punctuation">:</span> root
+        <span class="token key atrule">passwd</span><span class="token punctuation">:</span> <span class="token number">123456</span>
+    <span class="token key atrule">numbers</span><span class="token punctuation">:</span>
+      <span class="token punctuation">-</span> <span class="token number">1</span>
+      <span class="token punctuation">-</span> <span class="token number">2</span>
+      <span class="token punctuation">-</span> <span class="token number">3</span>
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"test"</span> 
+  <span class="token punctuation">-</span> <span class="token key atrule">template</span><span class="token punctuation">:</span>
+      <span class="token key atrule">src</span><span class="token punctuation">:</span> test.j2
+      <span class="token key atrule">dest</span><span class="token punctuation">:</span> /tmp/test<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>执行 <code>ansible-playbook  -i inventories test.yaml</code></p>
+<h5 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h5><blockquote>
+<p>当任务越来越多时一个文件放这么多有些不一样配合include和import分门别类的存放ansible资源文件</p>
+</blockquote>
+<h6 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h6><blockquote>
+<p>每个目录下都有an.yaml用语导入此目录其他的yaml</p>
+</blockquote>
+<pre class="line-numbers language-dir" data-language="dir"><code class="language-dir">.
+├── inventories
+├── roles
+│   ├── defaults
+│   ├── files       # 文件的目录
+│   ├── handlers    # handler目录
+│   ├── meta        # 特殊设定及其依赖关系
+│   ├── tasks       # 存放task的目录
+│   ├── templates   # 存放模版
+│   └── vars        # 存放变量
+└── test.yaml       # 剧本文件<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h6 id="角色例子"><a href="#角色例子" class="headerlink" title="角色例子"></a>角色例子</h6><p>在和roles文件同级目录创建剧本</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> <span class="token boolean important">false</span>
+  <span class="token key atrule">roles</span><span class="token punctuation">:</span>
+    <span class="token punctuation">-</span> <span class="token key atrule">role</span><span class="token punctuation">:</span> roles
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>在roles文件夹的task中创建task</p>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span> 
+    <span class="token key atrule">msg</span><span class="token punctuation">:</span> hahaha
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span></span></code></pre>
+
+<p>运行<code>ansible-playbook  -i inventories test.yaml</code></p>
+<h5 id="过滤器"><a href="#过滤器" class="headerlink" title="过滤器"></a>过滤器</h5><blockquote>
+<p>对一些数据进行处理</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">vars</span><span class="token punctuation">:</span>
+    <span class="token key atrule">testvar</span><span class="token punctuation">:</span> haha
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+  <span class="token punctuation">-</span> <span class="token key atrule">debug</span><span class="token punctuation">:</span>
+      <span class="token key atrule">msg</span><span class="token punctuation">:</span> <span class="token string">"&#123;&#123; testvar | upper &#125;&#125;"</span>    <span class="token comment"># 将全部字母转换成大写</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>基本格式就像上面一样其他功能只需要将<code>upper</code>替换为其他的字段即可</p>
+<p>常用过滤器</p>
+<ul>
+<li>upper 字符转换为大写</li>
+<li>lower 字符转换为小写</li>
+<li>indent 设置缩进</li>
+<li>json_query 将字符串作为json</li>
+<li>dirname 路径字符串的路径名</li>
+<li>hash() 进行hash处理</li>
+<li>password_hash 密码专用的hash</li>
+<li>checksum  计算md5</li>
+<li>ipaddr() 需要安装netaddr，针对ip地址处理</li>
+</ul>
+<h5 id="lookup"><a href="#lookup" class="headerlink" title="lookup"></a>lookup</h5><blockquote>
+<p>上面的过滤器和lookup其实都是插件具体介绍:<a target="_blank" rel="noopener" href="https://docs.ansible.com/ansible/latest/plugins/plugins.html">https://docs.ansible.com/ansible/latest/plugins/plugins.html</a></p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">---</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 渲染模版到变量
+  <span class="token key atrule">set_fact</span><span class="token punctuation">:</span>
+    <span class="token key atrule">yaml</span><span class="token punctuation">:</span> <span class="token string">'&#123;&#123; lookup("template", "test.j2") &#125;&#125;'</span>
+<span class="token punctuation">-</span> <span class="token key atrule">name</span><span class="token punctuation">:</span> 读取文件到变量
+  <span class="token key atrule">set_fact</span><span class="token punctuation">:</span>
+    <span class="token key atrule">file</span><span class="token punctuation">:</span> <span class="token string">'&#123;&#123; lookup("file", "/etc/hosts") &#125;&#125;'</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="在本地-amp-amp-只执行一次"><a href="#在本地-amp-amp-只执行一次" class="headerlink" title="在本地&amp;&amp;只执行一次"></a>在本地&amp;&amp;只执行一次</h5><blockquote>
+<p>有些时候一些剧本在本地执行，就像本地执行shell一样,由于在本地执行所以需要搭配<code>run_once</code></p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> localhost
+  <span class="token key atrule">connection</span><span class="token punctuation">:</span> local
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">run_once</span><span class="token punctuation">:</span> <span class="token boolean important">true</span>
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> no
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+     <span class="token punctuation">-</span> <span class="token key atrule">shell</span><span class="token punctuation">:</span> echo "test" <span class="token punctuation">></span> /tmp/test<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h5 id="并行执行"><a href="#并行执行" class="headerlink" title="并行执行"></a>并行执行</h5><blockquote>
+<p>在机器比较多时一台一台执行太慢<code>serial</code>可以指定并行执行的数量</p>
+</blockquote>
+<pre class="line-numbers language-yaml" data-language="yaml"><code class="language-yaml"><span class="token punctuation">-</span> <span class="token key atrule">hosts</span><span class="token punctuation">:</span> test
+  <span class="token key atrule">remote_user</span><span class="token punctuation">:</span> root
+  <span class="token key atrule">serial</span><span class="token punctuation">:</span> <span class="token number">1</span>
+  <span class="token comment">#serial: 20% 按百分比</span>
+  <span class="token key atrule">gather_facts</span><span class="token punctuation">:</span> no
+  <span class="token key atrule">tasks</span><span class="token punctuation">:</span>
+     <span class="token punctuation">-</span> <span class="token key atrule">shell</span><span class="token punctuation">:</span> echo "test" <span class="token punctuation">></span> /tmp/test<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<h4 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h4><p><a target="_blank" rel="noopener" href="http://www.zsythink.net/archives/category/%e8%bf%90%e7%bb%b4%e7%9b%b8%e5%85%b3/ansible/">http://www.zsythink.net/archives/category/%e8%bf%90%e7%bb%b4%e7%9b%b8%e5%85%b3/ansible/</a><br><a target="_blank" rel="noopener" href="https://docs.ansible.com/">https://docs.ansible.com/</a><br><a target="_blank" rel="noopener" href="http://www.ansible.com.cn/">http://www.ansible.com.cn/</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ansible/" rel="tag"># ansible</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/14/Logrotate/" rel="prev" title="Logrotate">
+                  <i class="fa fa-chevron-left"></i> Logrotate
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/19/Go%E8%B5%84%E6%BA%90%E5%86%85%E5%B5%8Cembed/" rel="next" title="Go资源内嵌embed">
+                  Go资源内嵌embed <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 2020 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Nature丿灵然</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/mist/" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+  
+
+
+
+
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/shizuku.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false}});</script></body>
+</html>
